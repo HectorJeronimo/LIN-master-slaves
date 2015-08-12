@@ -108,15 +108,15 @@
 
 
 
-#include "MCU_derivative.h"
+//#include "MCU_derivative.h"
 
 
 /** GPIO funtion prototypes  */
-#include    "GPIO.h"
+
 #include    "PIT.h"
 #include    "LED.h"
 #include	"LIN.h"
-
+#include 	"Button.h"
 
 
 
@@ -174,6 +174,7 @@ void main(void)
 {
   uint32_t i = 0;
     uint16_t button;
+
   
 
 	initModesAndClock();
@@ -204,10 +205,15 @@ void main(void)
     
     LED_Driver_Init();
     
- 
-        GPIO_Init();
+ Button_Driver_Init();
+//        GPIO_Init();
        LIN_InitMaster();
  
+ 
+   LED_OFF(LED1);
+    LED_OFF(LED2);
+      LED_ON(LED3);
+        LED_ON(LED4);
 	/*
 	for (;;) 
 	{

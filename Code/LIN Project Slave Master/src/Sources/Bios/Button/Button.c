@@ -42,14 +42,20 @@
  *  Critical/explanation : No
  **************************************************************/
 
-void Button_Init( S_BUTTON_TYPE * lps_Button , T_UBYTE lub_ID )
+void Button_Init(T_UBYTE lub_ID )
 {
     /* Data Port A initialization */ 
-    lps_Button->ub_ButtonID=lub_ID;
-	GPIO_InitChannel(lps_Button->ub_ButtonID,GPIO_INPUT,GPIO_OPEN_DRAIN_DISABLE);  	
+	GPIO_InitChannel(lub_ID,GPIO_INPUT,GPIO_OPEN_DRAIN_DISABLE);  	
 }
 
-
+void Button_Driver_Init(void)
+{
+	Button_Init(BUTTON1);
+	Button_Init(BUTTON2);
+	Button_Init(BUTTON3);
+	Button_Init(BUTTON4);
+	
+}
 
 /**************************************************************
  *  Name                 :	Button_GetStatus
@@ -59,8 +65,8 @@ void Button_Init( S_BUTTON_TYPE * lps_Button , T_UBYTE lub_ID )
  *  Critical/explanation :	No
  **************************************************************/
 
-T_UBYTE Button_GetStatus(S_BUTTON_TYPE* lps_Button)
+T_UBYTE Button_GetStatus(T_UBYTE lps_Button)
 {
-	return GPIO_GetStatusInput(lps_Button->ub_ButtonID);
+	return GPIO_GetStatusInput(lps_Button);
 }
 

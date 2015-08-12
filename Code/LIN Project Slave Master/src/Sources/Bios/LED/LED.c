@@ -31,10 +31,6 @@
 /*======================================================*/ 
 /* close variable declaration sections                  */
 /*======================================================*/ 
-#define LED1		68
-#define LED2		69
-#define LED3		70
-#define LED4		71
 
 
 

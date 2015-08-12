@@ -38,6 +38,10 @@
 /* typedef */
 
 typedef T_UBYTE T_LED_TYPE; 
+#define LED1		68
+#define LED2		69
+#define LED3		70
+#define LED4		71
 
 
 

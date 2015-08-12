@@ -79,7 +79,11 @@ void GPIO_InitChannel(T_UBYTE lub_Channel, T_UBYTE lub_InputOutput, T_UBYTE lub_
     {
     	SIU.PCR[lub_Channel].B.PA  = 0;  				/* GPIO */
     	SIU.PCR[lub_Channel].B.IBE = 1;					/* Input buffer enable */	
+    	SIU.PCR[lub_Channel].B.WPS  = 1;  				/* GPIO */
+    	SIU.PCR[lub_Channel].B.WPE = 1;
+    
     }
+    
 
 }
 

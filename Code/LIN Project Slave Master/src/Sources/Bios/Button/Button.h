@@ -37,11 +37,6 @@
 
 
 /* Button */
-typedef struct
-{
-	T_UBYTE ub_ButtonID;
-	T_UWORD uw_ButtonTimeHigh;
-}S_BUTTON_TYPE; 
 
 
 
@@ -55,15 +50,16 @@ typedef struct
 
 /* Functions prototypes */
 
-extern void Button_Init(S_BUTTON_TYPE * lps_Button, T_UBYTE lub_ID);
+extern void Button_Init(T_UBYTE lub_ID);
 
-extern T_UBYTE Button_GetStatus(S_BUTTON_TYPE * lps_Button);
-
+extern T_UBYTE Button_GetStatus(T_UBYTE  lub_Button);
+extern void Button_Driver_Init(void);
 
 /* Exported defines */
-#define BUTTON_UP			(T_UBYTE)64
-#define BUTTON_DOWN			(T_UBYTE)65
-#define BUTTON_ANTIPINCH	(T_UBYTE)66
+#define BUTTON1		(T_UBYTE)64
+#define BUTTON2		(T_UBYTE)65
+#define BUTTON3		(T_UBYTE)66
+#define BUTTON4		(T_UBYTE)67
 
 
 
