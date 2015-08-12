@@ -103,12 +103,12 @@ void GPIO_Output(T_UBYTE lub_Channel, T_UBYTE ub_LogicalValue)
 
  void GPIO_SetHigh(T_UBYTE lub_Channel)
 {
-	SIU.GPDO[lub_Channel].B.PDO =  0;		
+	SIU.GPDO[lub_Channel].B.PDO =  1;		
 }
 
  void GPIO_SetLow(T_UBYTE lub_Channel)
 {
-	SIU.GPDO[lub_Channel].B.PDO =  1;		
+	SIU.GPDO[lub_Channel].B.PDO =  0;		
 }
 
  void GPIO_SetInvert(T_UBYTE lub_Channel)
