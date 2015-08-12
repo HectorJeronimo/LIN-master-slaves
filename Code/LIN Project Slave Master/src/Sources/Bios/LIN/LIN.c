@@ -266,9 +266,13 @@ void LIN_InitSlave(void)
 	LINFLEX_0.IFCR[3].R = 0x0111;	// 8bytes, RX data, ID=0x34, CCS=1
 	
 	LINFLEX_0.LINIER.R = 0x7;	// enable RX, TX and header interrupt
-	
+
+   INTC_InstallINTCInterruptHandler(LIN_RX_ISR, 79, 1);
+   INTC_InstallINTCInterruptHandler(LIN_TX_ISR, 80, 2);
+   INTC.CPR.R = 0x0; 
+   
 	LINFLEX_0.LINCR1.R = 0x2300;
-  
+
     
 }
 
@@ -276,6 +280,7 @@ void LIN_InitSlave(void)
 void LIN_RX_ISR(void)
 {
 static vuint32_t  rx_datas[8];
+T_CMD_TYPE cmd_Recive;
 	static vuint32_t lin_status = 0;
 	lin_status = LINFLEX_0.LINSR.R;
 		/* wait for RMB */
@@ -283,6 +288,7 @@ static vuint32_t  rx_datas[8];
 	
 	/* get the data */
     rx_datas[0] = LINFLEX_0.BDRL.B.DATA0;   // se recive un comando que se guarda en una variale para despues ser ejecutado------------
+    cmd_Recive =(T_CMD_TYPE)rx_datas[0];
   //  rx_datas[1] = LINFLEX_0.BDRL.B.DATA1;
   //  rx_datas[2] = LINFLEX_0.BDRL.B.DATA2;
   //  rx_datas[3] = LINFLEX_0.BDRL.B.DATA3;

@@ -121,41 +121,6 @@
 
 
 
-static void GPIO_Init(void) 
-{	
-	SIU.PCR[64].R = 0x0103;
-	SIU.PCR[65].R = 0x0103;
-	SIU.PCR[66].R = 0x0103;
-	SIU.PCR[67].R = 0x0103;
-}
-
-uint16_t button_check(void)
-{
-	if(SIU.GPDI[64].R==0)
-	{
-		while(SIU.GPDI[64].R==0){};
-			
-		return (1);
-	}
-	if(SIU.GPDI[65].R==0)
-	{
-		while(SIU.GPDI[65].R==0){};
-			
-		return (2);
-	}
-	if(SIU.GPDI[66].R==0)
-	{
-		while(SIU.GPDI[66].R==0){};
-			
-		return (3);
-	}
-	if(SIU.GPDI[67].R==0)
-	{
-		while(SIU.GPDI[67].R==0){};
-			
-		return (4);
-	}
-}
 
 
 
@@ -172,10 +137,7 @@ void disableWatchdog(void)
 void main(void) 
 
 {
-  uint32_t i = 0;
-    uint16_t button;
-
-  
+    T_UWORD button;
 
 	initModesAndClock();
 	initPeriClkGen(); 
@@ -190,74 +152,92 @@ void main(void)
 	EXCEP_InitExceptionHandlers();
 	/*Initialize Exception Handlers */
 	
-  // 	vfnGPIO_LED_Init();
-	
-//	PIT_device_init();
-//   PIT_channel_configure(PIT_CHANNEL_0 , dummy_500us);	
-//    PIT_channel_start(PIT_CHANNEL_0);F
  
     /* Enable External Interrupts*/
     //enableIrq();
+    
     LIN_InitSlave();
-    INTC_InstallINTCInterruptHandler(LIN_RX_ISR, 79, 1);
-    INTC_InstallINTCInterruptHandler(LIN_TX_ISR, 80, 2);
-    INTC.CPR.R = 0x0; 
+    LIN_InitMaster();
     
     LED_Driver_Init();
-    
- Button_Driver_Init();
-//        GPIO_Init();
-       LIN_InitMaster();
+ 	Button_Driver_Init();
+
+  
+     
  
  
    LED_OFF(LED1);
-    LED_OFF(LED2);
-      LED_ON(LED3);
-        LED_ON(LED4);
-	/*
-	for (;;) 
-	{
-        BackgroundSubsystemTasks();
-	}	
-	*/
+   LED_OFF(LED2);
+   LED_ON(LED3);
+   LED_ON(LED4);
+
 
 	 for (;;) 
     {
         
-        button = button_check();
-         
+        button = Button_check();
         switch(button)
         {
         	case 1:
-    			// SW1 pressed, BIDR=0x1E35, Master sends 8bytes, ID=0x35, CCS=0
+    			// MASTER_CMD_ALL MsgID = 0xCF
 				LIN_TransmitDataMaster(0x030F);  
-				
     		break;
     	   	case 2:
-    			// SW2 pressed, BIDR=0x1F34, Master sends 8bytes, ID=0x34, CCS=1
+    			// MASTER_CMD_SLV2 MsgID = 0x11
 				LIN_TransmitDataMaster(0x0311);
-				
     		break;
     		case 3:
-    			// SW3 pressed, BIDR=0x1C37, Master receives 8bytes, ID=0x37, CCS=0
+    			// SLAVE2_RSP MsgID = 0x61
 				LIN_ReceiveDataMaster(0x0521);
-				
     		break;
     		case 4:
-    			// SW4 pressed, BIDR=0x1D36, Master receives 8bytes, ID=0x36, CCS=1
+    			// SLAVE2_ID MsgID = 0xB1
 				LIN_ReceiveDataMaster(0x1931);
-				
     		break;
     		default:
-    		break;
-        
+    		break;        
         }
         
-        i++;
+  
     }
 
 }
 
 /*~~~~~~~ End of Main Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
-
+void MasterMannager()
+{
+	
+}
+void Command(T_CMD_TYPE cmd)
+{
+T_UBYTE State; //para que no haya error va a ser global
+if(State==cmd_enable_slv)
+	{
+	 switch(cmd)
+	        {
+	        	case cmd_NONE:
+	    		/* Do nothing */
+	    		break;
+	    	   	case cmd_LED_on:
+	    		LED_ON(LED1);
+	    		break;
+	    		case cmd_LED_off:
+	    		LED_OFF(LED1);
+	    		break;
+	    		case cmd_LED_toggling:
+	    		LED_Toggle(LED1);
+	    		break;
+	    		case cmd_disable_slv:
+	    		State=cmd_disable_slv;
+	    		break;
+	    		case cmd_enable_slv:
+	    		State=cmd_enable_slv;
+	    		break;
+	    		default:
+	    		break;        
+	        }
+        
+	}
+	cmd=cmd_NONE;
+}

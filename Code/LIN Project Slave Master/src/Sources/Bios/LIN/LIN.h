@@ -30,6 +30,7 @@
 /* -------- */
 #include "typedefs.h"
 #include "MCU_derivative.h"
+#include "LIN_Types.h"
 
 /* Exported types and constants */
 /* ---------------------------- */

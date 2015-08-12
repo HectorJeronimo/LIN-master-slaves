@@ -128,5 +128,5 @@ T_UBYTE GPIO_GetStatusOutput(T_UBYTE lub_Channel)
 
 T_UBYTE GPIO_GetStatusInput(T_UBYTE lub_Channel)
 {
-	return !SIU.GPDI[lub_Channel].R;		
+	return SIU.GPDI[lub_Channel].B.PDI;		
 }

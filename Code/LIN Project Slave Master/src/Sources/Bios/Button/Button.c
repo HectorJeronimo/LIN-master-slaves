@@ -70,3 +70,31 @@ T_UBYTE Button_GetStatus(T_UBYTE lps_Button)
 	return GPIO_GetStatusInput(lps_Button);
 }
 
+
+T_UWORD Button_check(void)
+{
+	if(SIU.GPDI[BUTTON1].R==0)
+	{
+		while(SIU.GPDI[BUTTON1].R==0){};
+			
+		return (1);
+	}
+	if(SIU.GPDI[BUTTON2].R==0)
+	{
+		while(SIU.GPDI[BUTTON2].R==0){};
+			
+		return (2);
+	}
+	if(SIU.GPDI[BUTTON3].R==0)
+	{
+		while(SIU.GPDI[BUTTON3].R==0){};
+			
+		return (3);
+	}
+	if(SIU.GPDI[BUTTON4].R==0)
+	{
+		while(SIU.GPDI[BUTTON4].R==0){};
+			
+		return (4);
+	}
+}
