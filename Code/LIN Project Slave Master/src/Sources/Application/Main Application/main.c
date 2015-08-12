@@ -170,7 +170,8 @@ void main(void)
 
 	 for (;;) 
     {
-        executeMASTERTask();
+    
+       executeMASTERTask();
         Command();
    
     }

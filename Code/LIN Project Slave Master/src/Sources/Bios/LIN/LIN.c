@@ -261,7 +261,7 @@ void LIN_InitSlave(void)
 	LINFLEX_0.IFMR.R = 0x0;		// filters 0 - 3 are in identifier list mode.
 	
 	LINFLEX_0.IFCR[0].R = 0x0721;	// 8bytes, TX data, ID=0x37, CCS=0
-	LINFLEX_0.IFCR[1].R = 0x010F;	// 8bytes, RX data, ID=0x35, CCS=0
+	LINFLEX_0.IFCR[1].R = 0x010F;	// 010f 8bytes, RX data, ID=0x35, CCS=0
 	
 	LINFLEX_0.IFCR[2].R = 0x1B31; // 8bytes, TX data, ID=0x36, CCS=1
 	LINFLEX_0.IFCR[3].R = 0x0111;	// 8bytes, RX data, ID=0x34, CCS=1
