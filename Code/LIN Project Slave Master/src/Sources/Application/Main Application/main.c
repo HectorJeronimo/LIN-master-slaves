@@ -25,7 +25,11 @@
 
 /* Includes */
 /* -------- */
-//#include "template.h"
+
+
+#include "PracticeMS.h"
+
+
 
 /* Functions macros, constants, types and datas         */
 /* ---------------------------------------------------- */
@@ -84,6 +88,8 @@
 
 /* Private functions */
 /* ----------------- */
+
+
 /**************************************************************
  *  Name                 : private_func
  *  Description          :
@@ -91,36 +97,6 @@
  *  Return               :
  *  Critical/explanation :    [yes / No]
  **************************************************************/
-
-
-/* Exported functions */
-/* ------------------ */
-/**************************************************************
- *  Name                 :	export_func
- *  Description          :
- *  Parameters           :  [Input, Output, Input / output]
- *  Return               :
- *  Critical/explanation :    [yes / No]
- **************************************************************/
-
-
-
-
-
-
-//#include "MCU_derivative.h"
-
-
-/** GPIO funtion prototypes  */
-
-#include    "LED.h"
-#include	"LIN.h"
-#include 	"Button.h"
-
-#include "PracticeMS.h"
-
-
-
 
 
 void disableWatchdog(void) 
@@ -131,13 +107,17 @@ void disableWatchdog(void)
 }
 
 
-
-/*~~~~~~~ Main Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/**************************************************************
+ *  Name                 : private_func
+ *  Description          :
+ *  Parameters           :  [Input, Output, Input / output]
+ *  Return               :
+ *  Critical/explanation :    [yes / No]
+ **************************************************************/
 void main(void) 
 
 {
   
-
 	initModesAndClock();
 	initPeriClkGen(); 
 	/* Disable Watchdog */
@@ -161,22 +141,37 @@ void main(void)
     LED_Driver_Init();
  	Button_Driver_Init();
 
-
-  // LED_OFF(LED1);
-  // LED_OFF(LED2);
-  // LED_ON(LED3);
-  // LED_ON(LED4);
-
-
 	 for (;;) 
     {
-    
        executeMASTERTask();
         Command();
-   
     }
 
 }
 
-/*~~~~~~~ End of Main Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/* Exported functions */
+/* ------------------ */
+/**************************************************************
+ *  Name                 :	export_func
+ *  Description          :
+ *  Parameters           :  [Input, Output, Input / output]
+ *  Return               :
+ *  Critical/explanation :    [yes / No]
+ **************************************************************/
+
+
+
+
+
+
+//#include "MCU_derivative.h"
+
+
+/** GPIO funtion prototypes  */
+
+
+
+
+
+
 

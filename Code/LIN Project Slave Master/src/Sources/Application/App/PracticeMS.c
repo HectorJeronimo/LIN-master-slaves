@@ -49,6 +49,9 @@
 /*======================================================*/ 
 /* BYTE RAM variables */
 
+ T_CMD_TYPE cmd;
+ T_CMD_TYPE State;
+ T_LED_STAT LED_state;
 
 /* WORD RAM variables */
 
@@ -93,6 +96,8 @@
  **************************************************************/
 
 
+
+
 /* Exported functions */
 /* ------------------ */
 /**************************************************************
@@ -103,9 +108,6 @@
  *  Critical/explanation :    [yes / No]
  **************************************************************/
 
- T_CMD_TYPE cmd;
- T_CMD_TYPE State;
- T_LED_STAT LED_state;
 
 
 void InitMS(void)
@@ -159,7 +161,13 @@ void executeMASTERTask(void)
 
 
 
-
+/**************************************************************
+ *  Name                 : private_func
+ *  Description          :
+ *  Parameters           :  [Input, Output, Input / output]
+ *  Return               :
+ *  Critical/explanation :    [yes / No]
+ **************************************************************/
 void Command(void)
 {
 static T_UBYTE toggleCount=0;

@@ -72,7 +72,12 @@
 /* ---------------------------------------- */
 
 /* Functions prototypes */
-
+void executeMASTERTask(void);
+void Command(void);
+void InitMS(void);
+ T_LED_STAT GET_LED_STATUS(void);
+ T_CMD_TYPE GET_STATE(void);
+ void SET_CMD(T_CMD_TYPE cmdRecived);
 
 /* Functions macros */
 
@@ -82,12 +87,7 @@
 
 
 
-void executeMASTERTask(void);
-void Command(void);
-void InitMS(void);
- T_LED_STAT GET_LED_STATUS(void);
- T_CMD_TYPE GET_STATE(void);
- void SET_CMD(T_CMD_TYPE cmdRecived);
+
  
  
 #endif
