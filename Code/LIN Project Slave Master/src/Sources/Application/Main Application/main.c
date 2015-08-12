@@ -1,10 +1,107 @@
+/*============================================================================*/
+/*                        SV C CE SOFTWARE GROUP                              */
+/*============================================================================*/
+/*                        OBJECT SPECIFICATION                                */
+/*============================================================================*
+* C Source:         %template.c%
+* Instance:         RPL_1
+* %version:         2 %
+* %created_by:      uid02495 %
+* %date_created:    Fri Jan  9 14:38:03 2004 %
+*=============================================================================*/
+/* DESCRIPTION : C source template file                                       */
+/*============================================================================*/
+/* FUNCTION COMMENT : This file describes the C source template according to  */
+/* the new software platform                                                  */
+/*                                                                            */
+/*============================================================================*/
+/*                               OBJECT HISTORY                               */
+/*============================================================================*/
+/*  REVISION |   DATE      |                               |      AUTHOR      */
+/*----------------------------------------------------------------------------*/
+/*  1.0      | DD/MM/YYYY  |                               | Mr. Template     */
+/* Integration under Continuus CM                                             */
+/*============================================================================*/
+
+/* Includes */
+/* -------- */
+//#include "template.h"
+
+/* Functions macros, constants, types and datas         */
+/* ---------------------------------------------------- */
+/* Functions macros */
+
+/*==================================================*/ 
+/* Definition of constants                          */
+/*==================================================*/ 
+/* BYTE constants */
+
+
+/* WORD constants */
+
+
+/* LONG and STRUCTURE constants */
 
 
 
+/*======================================================*/ 
+/* Definition of RAM variables                          */
+/*======================================================*/ 
+/* BYTE RAM variables */
+
+
+/* WORD RAM variables */
+
+
+/* LONG and STRUCTURE RAM variables */
+
+
+/*======================================================*/ 
+/* close variable declaration sections                  */
+/*======================================================*/ 
+
+/* Private defines */
+
+
+/* Private functions prototypes */
+/* ---------------------------- */
 
 
 
+/* Exported functions prototypes */
+/* ----------------------------- */
 
+/* Inline functions */
+/* ---------------- */
+/**************************************************************
+ *  Name                 : inline_func	2
+ *  Description          :
+ *  Parameters           :  [Input, Output, Input / output]
+ *  Return               :
+ *  Critical/explanation :    [yes / No]
+ **************************************************************/
+
+
+/* Private functions */
+/* ----------------- */
+/**************************************************************
+ *  Name                 : private_func
+ *  Description          :
+ *  Parameters           :  [Input, Output, Input / output]
+ *  Return               :
+ *  Critical/explanation :    [yes / No]
+ **************************************************************/
+
+
+/* Exported functions */
+/* ------------------ */
+/**************************************************************
+ *  Name                 :	export_func
+ *  Description          :
+ *  Parameters           :  [Input, Output, Input / output]
+ *  Return               :
+ *  Critical/explanation :    [yes / No]
+ **************************************************************/
 
 
 
@@ -336,7 +433,7 @@ static void LINFlex_0_TX_ISR(void)
 
 	lin_status = LINFLEX_0.LINSR.R;
 	lin_bidrs = LINFLEX_0.BIDR.R;
-    lin_bidr_ID = lin_bidr&0x3F;
+    lin_bidr_ID = lin_bidrs&0x3F;
 	
 	if(lin_status&0x1)		/* if header received */
 	{
@@ -351,14 +448,25 @@ static void LINFlex_0_TX_ISR(void)
     
 	    /* fill the BDR registers */
 	    // ---------------------------------------------------------------------------funcion que escogeque se envia dependiendo del id 
-	    LINFLEX_0.BDRL.B.DATA0 = toggle;
-	    LINFLEX_0.BDRL.B.DATA1 = 0x55;
-	    LINFLEX_0.BDRL.B.DATA2 = 0xAA;
-	    LINFLEX_0.BDRL.B.DATA3 = 0x55;
-	    LINFLEX_0.BDRM.B.DATA4 = 'o';
-	    LINFLEX_0.BDRM.B.DATA5 = ' ';
-	    LINFLEX_0.BDRM.B.DATA6 = ',';
-	    LINFLEX_0.BDRM.B.DATA7 = ' ';
+	    if(lin_bidr_ID == 0x21)
+	    {
+	  LINFLEX_0.BDRL.B.DATA0 = 0x03;
+	    LINFLEX_0.BDRL.B.DATA1 = 0x07;
+	    }
+	    else
+	    {
+	  
+	    
+	         LINFLEX_0.BDRL.B.DATA0 = 0x02;
+	    LINFLEX_0.BDRL.B.DATA1 = 'P';
+	    LINFLEX_0.BDRL.B.DATA2 = 'H';
+	    LINFLEX_0.BDRL.B.DATA3 = 'R';
+	    LINFLEX_0.BDRM.B.DATA4 = 'C';
+	    LINFLEX_0.BDRM.B.DATA5 = 'V';
+	    LINFLEX_0.BDRM.B.DATA6 = 'V';
+	   // LINFLEX_0.BDRM.B.DATA7 = ' ';	
+	    }
+	   
 	        
 	    /* specify the data field length BIDR[DFL] */
 	//  LINFLEX_0.BIDR.B.DFL = 0x07; /* 8 bytes - 1 */        
