@@ -3,32 +3,35 @@
 /*============================================================================*/
 /*                        OBJECT SPECIFICATION                                */
 /*============================================================================*
-* C Include:        LIN_Types.h
+* C Include:        %template.h%
 * Instance:         RPL_1
-* %version:         1.0
-* %created_by:      Pedro Romero Vargas
-* %date_created:    Tue Aug 04 10:48:01 2015
+* %version:         1 %
+* %created_by:      uid02495 %
+* %date_created:    Fri Feb 28 13:41:01 2003 %
 *=============================================================================*/
-/* DESCRIPTION : Contains all the types and definitions used in LIN driver    */
+/* DESCRIPTION : Header file template                                         */
 /*============================================================================*/
-/* FUNCTION COMMENT : contains only symbols which are exported to LIN driver  */
+/* FUNCTION COMMENT : contains only symbols which are exported to internal    */
+/* platform modules. This will not be delivered with the library              */
 /*                                                                            */
 /*============================================================================*/
 /*                               OBJECT HISTORY                               */
 /*============================================================================*/
 /*  REVISION |   DATE      |                               |      AUTHOR      */
 /*----------------------------------------------------------------------------*/
-/*  1.0      | 04/08/2015  | SAR/SIF/SCN_xxx               | Pedro Romero     */
+/*  1.0      | DD/MM/YYYY  | SAR/SIF/SCN_xxx               | Mr. Template     */
 /* Integration under Continuus CM                                             */
 /*============================================================================*/
 
-#ifndef LINTYPES_H                               /* To avoid double inclusion */
-#define LINTYPES_H
+#ifndef PRACTICE_H                               /* To avoid double inclusion */
+#define PRACTICE_H
 
 /* Includes */
 /* -------- */
 
-#include "typedefs.h"
+#include    "LED.h"
+#include	"LIN.h"
+
 /* Exported types and constants */
 /* ---------------------------- */
 
@@ -79,44 +82,14 @@
 
 
 
-
-
-
-
-/* 
-
-
-
-
-
-*/
-
-#define         SIZEOFDATA       8
-
-typedef void (*TaskFunctionPtrType)(void);
-
-
-
-typedef enum
-{
-	cmd_NONE,
-	cmd_LED_on,
-	cmd_LED_off,
-	cmd_LED_toggling,
-	cmd_disable_slv,
-	cmd_enable_slv
-}T_CMD_TYPE; 
-
-
-typedef enum
-{
-	OFF,
-	ON,
-	TOGGLING
-}T_LED_STAT;
-
-
-
+void executeMASTERTask(void);
+void Command(void);
+void InitMS(void);
+ T_LED_STAT GET_LED_STATUS(void);
+ T_CMD_TYPE GET_STATE(void);
+ void SET_CMD(T_CMD_TYPE cmdRecived);
+ 
+ 
 #endif
 
 

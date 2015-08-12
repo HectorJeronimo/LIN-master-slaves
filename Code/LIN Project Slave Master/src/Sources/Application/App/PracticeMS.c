@@ -25,7 +25,7 @@
 
 /* Includes */
 /* -------- */
-//#include "template.h"
+#include "PracticeMs.h"
 
 /* Functions macros, constants, types and datas         */
 /* ---------------------------------------------------- */
@@ -103,79 +103,103 @@
  *  Critical/explanation :    [yes / No]
  **************************************************************/
 
+ T_CMD_TYPE cmd;
+ T_CMD_TYPE State;
+ T_LED_STAT LED_state;
 
 
-
-
-
-//#include "MCU_derivative.h"
-
-
-/** GPIO funtion prototypes  */
-
-#include    "LED.h"
-#include	"LIN.h"
-#include 	"Button.h"
-
-#include "PracticeMS.h"
-
-
-
-
-
-void disableWatchdog(void) 
+void InitMS(void)
 {
-  SWT.SR.R = 0x0000c520;     /* Write keys to clear soft lock bit */
-  SWT.SR.R = 0x0000d928; 
-  SWT.CR.R = 0x8000010A;     /* Clear watchdog enable (WEN) */
+	 cmd =cmd_NONE;
+ 	State=cmd_disable_slv;
+  LED_state=OFF;
 }
-
-
-
-/*~~~~~~~ Main Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-void main(void) 
-
-{
-  
-
-	initModesAndClock();
-	initPeriClkGen(); 
-	/* Disable Watchdog */
-	
-	disableWatchdog();
-	/*Initialize LEDs on TRK-MPC560xB board */
-	
-	INTC_InitINTCInterrupts();
-	/*Initialize Interrupts */
-	
-	EXCEP_InitExceptionHandlers();
-	/*Initialize Exception Handlers */
-	
  
-    /* Enable External Interrupts*/
-    //enableIrq();
-    
-    LIN_InitSlave();
-    LIN_InitMaster();
-    InitMS();
-    LED_Driver_Init();
- 	Button_Driver_Init();
-
-
-  // LED_OFF(LED1);
-  // LED_OFF(LED2);
-  // LED_ON(LED3);
-  // LED_ON(LED4);
-
-
-	 for (;;) 
-    {
-        executeMASTERTask();
-        Command();
-   
-    }
-
+ T_LED_STAT GET_LED_STATUS(void)
+ {
+ return LED_state;	
+ }
+  T_CMD_TYPE GET_STATE(void)
+ {
+ return State	;
+ }
+  void  SET_CMD(T_CMD_TYPE cmdRecived)
+ {
+ cmd = cmdRecived	;
+ }
+ 
+void executeMASTERTask(void)
+{
+	  T_UWORD button;
+     button = Button_check();
+ switch(button)
+        {
+        	case 1:
+    			// MASTER_CMD_ALL MsgID = 0xCF
+				LIN_TransmitDataMaster(0x030F);  
+    		break;
+    	   	case 2:
+    			// MASTER_CMD_SLV2 MsgID = 0x11
+				LIN_TransmitDataMaster(0x0311);
+    		break;
+    		case 3:
+    			// SLAVE2_RSP MsgID = 0x61
+				LIN_ReceiveDataMaster(0x0521);
+    		break;
+    		case 4:
+    			// SLAVE2_ID MsgID = 0xB1
+				LIN_ReceiveDataMaster(0x1931);
+    		break;
+    		default:
+    		break;        
+        }
+	
+	cmd=cmd_NONE;
 }
 
-/*~~~~~~~ End of Main Code ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
+
+
+void Command(void)
+{
+static T_UBYTE toggleCount=0;
+if(State==cmd_enable_slv || cmd ==cmd_enable_slv)
+	{
+	 switch(cmd)
+	        {
+	        	case cmd_NONE:
+	    		/* Do nothing */
+	    		break;
+	    	   	case cmd_LED_on:
+	    		LED_ON(LED1);
+	    		LED_state=ON;
+	    		break;
+	    		case cmd_LED_off:
+	    		LED_OFF(LED1);
+	    		LED_state=OFF;
+	    		break;
+	    		case cmd_LED_toggling:
+	    		if(toggleCount>127)
+	    		{
+	    		LED_ON(LED1);	
+	    		}
+	    		else
+	    		{
+    			LED_OFF(LED1);	
+	    		}
+	    		toggleCount++;
+	    		LED_state=TOGGLING;
+	    		break;
+	    		case cmd_disable_slv:
+	    		State=cmd_disable_slv;
+	    		break;
+	    		case cmd_enable_slv:
+	    		State=cmd_enable_slv;
+	    		break;
+	    		default:
+	    		break;        
+	        }
+        
+	}
+
+}

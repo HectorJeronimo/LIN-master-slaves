@@ -26,6 +26,7 @@
 /* Includes */
 /* -------- */
 #include "LIN.h"
+#include "PracticeMS.h"
 
 /* Functions macros, constants, types and datas         */
 /* ---------------------------------------------------- */
@@ -289,6 +290,8 @@ T_CMD_TYPE cmd_Recive;
 	/* get the data */
     rx_datas[0] = LINFLEX_0.BDRL.B.DATA0;   // se recive un comando que se guarda en una variale para despues ser ejecutado------------
     cmd_Recive =(T_CMD_TYPE)rx_datas[0];
+    SET_CMD((T_CMD_TYPE)rx_datas[0]);
+
   //  rx_datas[1] = LINFLEX_0.BDRL.B.DATA1;
   //  rx_datas[2] = LINFLEX_0.BDRL.B.DATA2;
   //  rx_datas[3] = LINFLEX_0.BDRL.B.DATA3;
@@ -333,8 +336,8 @@ static vuint32_t lin_bidr_ID = 0;
 	    // ---------------------------------------------------------------------------funcion que escogeque se envia dependiendo del id 
 	    if(lin_bidr_ID == 0x21)
 	    {
-	  LINFLEX_0.BDRL.B.DATA0 = 0x03;
-	    LINFLEX_0.BDRL.B.DATA1 = 0x07;
+	  LINFLEX_0.BDRL.B.DATA0 = (T_UBYTE)GET_STATE();
+	    LINFLEX_0.BDRL.B.DATA1 = (T_UBYTE)GET_LED_STATUS();
 	    }
 	    else
 	    {
